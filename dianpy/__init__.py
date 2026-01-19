@@ -1,42 +1,59 @@
-from typing import Literal
-import lxml.etree as ET
+from __future__ import annotations
+from lxml import etree
 
+from pathlib import Path
+from typing import Union
 from .meet import Meet
-from .event import Event
-from .athlete import Athlete
-
-from xmlbind.compiler import XmlCompiler
-from xmlbind.settings import add_compiler
 
 
-class LiteralCompiler(XmlCompiler[Literal]):
-    def __init__(self):
-        super().__init__(Literal)
-
-    def unmarshal(self, v):
-        return v
-
-    def marshal(self, v):
-        return v
+PathLike = Union[str, Path]
 
 
-def fromfile(path):
-    with open(path, 'rb') as file:
-        element = ET.fromstring(file.read())
-    return Meet._parse(element)
+def fromfile(path: PathLike) -> Meet:
+    """
+    Read XML from file and parse it into Meet.
+    Important: pass BYTES to from_xml() to support XML declaration with encoding.
+    """
+    p = Path(path)
+    xml_bytes: bytes = p.read_bytes()
+    return Meet.from_xml(xml_bytes)
 
 
-def tofile(meet: Meet, path):
-    element = meet.dump('MEET')
-    text = ET.tostring(
-        element,
-        encoding='utf-8',
-        xml_declaration=True,
-        pretty_print=True,
-        method='xml'
+def tofile(
+    meet: Meet,
+    path: PathLike,
+    *,
+    encoding: str = "utf-8",
+    pretty: bool = True,
+    indent: int = 4,
+    skip_empty: bool = True,
+    exclude_none: bool = True,
+    exclude_unset: bool = False,
+) -> None:
+    """
+    Serialize Meet to XML and write it to file.
+    NOTE: meet.to_xml() delegates to lxml.etree.tostring(), so do NOT pass pretty_print/indent there.
+    """
+    p = Path(path)
+
+    # 1) дерево
+    root = meet.to_xml_tree(
+        skip_empty=skip_empty,
+        exclude_none=exclude_none,
+        exclude_unset=exclude_unset,
     )
-    with open(path, 'wb+') as file:
-        file.write(text)
 
+    if pretty:
+        try:
+            etree.indent(root, space=" " * indent)
+        except TypeError:
+            etree.indent(root)
 
-add_compiler(LiteralCompiler())
+    xml_bytes: bytes = etree.tostring(
+        root,
+        encoding=encoding,
+        xml_declaration=True,
+        method="xml",
+    )
+
+    p.write_bytes(xml_bytes)

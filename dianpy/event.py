@@ -1,14 +1,15 @@
-
 from typing import List, Literal
+from pydantic_xml import BaseXmlModel, attr, element
+
 from .athlete import Athlete
-from xmlbind import XmlRoot, XmlAttribute, XmlElementWrapper
 
 
-class Event(XmlRoot):
-    name: str = XmlAttribute('name')
-    gender: Literal['M', 'F', 'X'] = XmlAttribute('gender')
-    stroke: str = XmlAttribute('stroke')
-    distance: int = XmlAttribute('distance')
-    heatcount: int = XmlAttribute('heatcount')
-    relaycount: int = XmlAttribute('relaycount')
-    athletes: List[Athlete] = XmlElementWrapper('ATHLETE')
+class Event(BaseXmlModel, tag="EVENT"):
+    name: str = attr(name="name")
+    gender: Literal["M", "F", "X"] = attr(name="gender")
+    stroke: str = attr(name="stroke")
+    distance: int = attr(name="distance")
+    heatcount: int = attr(name="heatcount")
+    relaycount: int = attr(name="relaycount")
+
+    athletes: List[Athlete] = element(tag="ATHLETE", default_factory=list)

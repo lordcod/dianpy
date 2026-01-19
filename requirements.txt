@@ -1,1 +1,1 @@
-xmlbind
+pydantic-xml==2.18.0

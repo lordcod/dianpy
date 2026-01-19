@@ -1,18 +1,18 @@
 from typing import Literal
-from xmlbind import XmlRoot, XmlAttribute
+from pydantic_xml import BaseXmlModel, attr
 
 
-class Athlete(XmlRoot):
-    firstname: str = XmlAttribute('firstname')
-    lastname: str = XmlAttribute('lastname')
-    gender: Literal['M', 'F', 'X'] = XmlAttribute('gender')
-    birthdate: str = XmlAttribute('birthdate')
-    club: str = XmlAttribute('club')
-    time: str = XmlAttribute('time')
-    heatnum: int = XmlAttribute('heatnum')
-    lanenum: int = XmlAttribute('lanenum')
-    entrytime: str = XmlAttribute('entrytime')
-    starttime: str = XmlAttribute('starttime')
-    completeddistance: int = XmlAttribute('completeddistance')
-    timemodified: str = XmlAttribute('timemodified')
-    disqualification: str = XmlAttribute('disqualification')
+class Athlete(BaseXmlModel, tag="ATHLETE"):
+    firstname: str = attr(name="firstname")
+    lastname: str = attr(name="lastname")
+    gender: Literal["M", "F", "X"] = attr(name="gender")
+    birthdate: str = attr(name="birthdate")
+    club: str = attr(name="club")
+    time: str = attr(name="time")
+    heatnum: int = attr(name="heatnum")
+    lanenum: int = attr(name="lanenum")
+    entrytime: str = attr(name="entrytime")
+    starttime: str = attr(name="starttime")
+    completeddistance: int = attr(name="completeddistance")
+    timemodified: str = attr(name="timemodified")
+    disqualification: str = attr(name="disqualification")

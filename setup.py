@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 setup(
     name='dianpy',
     description='DianPy a special parser for working with the dian scoreboard',
-    version='0.0.2',
+    version='1.0.1',
     install_requires=[
-        'xmlbind>=0.0.5'
+        'pydantic-xml>=2.18.0'
     ],
     packages=find_packages()
 )

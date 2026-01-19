@@ -1,17 +1,19 @@
 from typing import List, Literal
+from pydantic_xml import BaseXmlModel, attr, element
+
 from .event import Event
-from xmlbind import XmlRoot, XmlAttribute, XmlElementWrapper
 
 
-class Meet(XmlRoot):
-    name: str = XmlAttribute('name')
-    year: int = XmlAttribute('year')
-    course: Literal['SCM', 'LSM'] = XmlAttribute('course')
-    lanecount: int = XmlAttribute('lanecount')
-    timingdistance: int = XmlAttribute('timingdistance')
-    feventsagegroups: str = XmlAttribute('feventsagegroups')
-    meventsagegroups: str = XmlAttribute('meventsagegroups')
-    xeventsagegroups: str = XmlAttribute('xeventsagegroups')
-    timestandardfilename: str = XmlAttribute('timestandardfilename')
-    disqualificationcodes: str = XmlAttribute('disqualificationcodes')
-    events: List[Event] = XmlElementWrapper('EVENT')
+class Meet(BaseXmlModel, tag="MEET"):
+    name: str = attr(name="name")
+    year: int = attr(name="year")
+    course: Literal["SCM", "LSM"] = attr(name="course")
+    lanecount: int = attr(name="lanecount")
+    timingdistance: int = attr(name="timingdistance")
+    feventsagegroups: str = attr(name="feventsagegroups")
+    meventsagegroups: str = attr(name="meventsagegroups")
+    xeventsagegroups: str = attr(name="xeventsagegroups")
+    timestandardfilename: str = attr(name="timestandardfilename")
+    disqualificationcodes: str = attr(name="disqualificationcodes")
+
+    events: List[Event] = element(tag="EVENT", default_factory=list)
