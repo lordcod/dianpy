@@ -9,7 +9,7 @@ class Event(BaseXmlModel, tag="EVENT"):
     gender: Literal["M", "F", "X"] = attr(name="gender")
     stroke: str = attr(name="stroke")
     distance: int = attr(name="distance")
-    heatcount: int = attr(name="heatcount")
-    relaycount: int = attr(name="relaycount")
+    heatcount: int = attr(name="heatcount", default=0)
+    relaycount: int = attr(name="relaycount", default=0)
 
     athletes: List[Athlete] = element(tag="ATHLETE", default_factory=list)
