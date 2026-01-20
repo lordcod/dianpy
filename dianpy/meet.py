@@ -1,4 +1,5 @@
-from typing import List, Literal
+from datetime import date
+from typing import List, Literal, Optional
 from pydantic_xml import BaseXmlModel, attr, element
 
 from .event import Event
@@ -6,10 +7,10 @@ from .event import Event
 
 class Meet(BaseXmlModel, tag="MEET"):
     name: str = attr(name="name")
-    year: int = attr(name="year")
+    year: int | date = attr(name="year")
     course: Literal["SCM", "LSM"] = attr(name="course")
     lanecount: int = attr(name="lanecount")
-    timingdistance: int = attr(name="timingdistance")
+    timingdistance: Optional[int] = attr(name="timingdistance", default=None)
     feventsagegroups: str = attr(name="feventsagegroups")
     meventsagegroups: str = attr(name="meventsagegroups")
     xeventsagegroups: str = attr(name="xeventsagegroups")
