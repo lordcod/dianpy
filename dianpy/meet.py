@@ -11,9 +11,9 @@ class Meet(BaseXmlModel, tag="MEET"):
     course: Literal["SCM", "LSM"] = attr(name="course")
     lanecount: int = attr(name="lanecount")
     timingdistance: Optional[int] = attr(name="timingdistance", default=None)
-    feventsagegroups: str = attr(name="feventsagegroups")
-    meventsagegroups: str = attr(name="meventsagegroups")
-    xeventsagegroups: str = attr(name="xeventsagegroups")
+    feventsagegroups: str = attr(name="feventsagegroups", default="")
+    meventsagegroups: str = attr(name="meventsagegroups", default="")
+    xeventsagegroups: str = attr(name="xeventsagegroups", default="")
     timestandardfilename: str = attr(name="timestandardfilename")
     disqualificationcodes: str = attr(name="disqualificationcodes")
 
