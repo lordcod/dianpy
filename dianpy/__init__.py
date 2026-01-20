@@ -2,9 +2,12 @@ from __future__ import annotations
 from lxml import etree
 
 from pathlib import Path
-from typing import Union
+from typing import Tuple, Union
 from .meet import Meet
+from .event import Event
+from .athlete import Athlete
 
+__all__: Tuple[str, ...] = ("fromfile", "tofile", "Meet", "Event", "Athlete")
 
 PathLike = Union[str, Path]
 
